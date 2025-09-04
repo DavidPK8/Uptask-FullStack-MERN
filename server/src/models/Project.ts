@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document, PopulatedDoc, Types } from "mongoose";
 import { ITask } from "./Task";
 
-// Definición de la interfaz para el modelo de Proyecto
+// Definition of the Project Interface
 export interface IProject extends Document {
     projectName: string;
     clientName: string;
@@ -9,7 +9,7 @@ export interface IProject extends Document {
     tasks: PopulatedDoc<ITask & Document>[];
 }
 
-// Definición del esquema para el modelo de Proyecto
+// Definition of the Project Schema
 const ProjectSchema: Schema = new Schema(
     {
         projectName: {

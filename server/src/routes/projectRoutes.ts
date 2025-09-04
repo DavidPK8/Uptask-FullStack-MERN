@@ -3,9 +3,12 @@ import { body, param } from "express-validator";
 import { ProjectController } from "../controllers/ProjectController";
 import { TaskController } from "../controllers/TaskController";
 import { handleInputErrors } from "../middlewares/validation";
+import { validteProjectExists } from "../middlewares/proyect";
 
 const router = Router();
 
+/* Routes for Projects */
+// Create a new Project
 router.post(
     "/",
     body("projectName").notEmpty().withMessage("Project name is required"),
@@ -15,7 +18,10 @@ router.post(
     ProjectController.createProject
 );
 
+// Get all Projects
 router.get("/", ProjectController.getAllProjects);
+
+// Get a Project by ID
 router.get(
     "/:id",
     param("id").isMongoId().withMessage("Invalid Project ID"),
@@ -23,6 +29,7 @@ router.get(
     ProjectController.getProjectByID
 );
 
+// Update a Project by ID
 router.put(
     "/:id",
     param("id").isMongoId().withMessage("Invalid Project ID"),
@@ -33,6 +40,7 @@ router.put(
     ProjectController.updateProject
 );
 
+// Delete a Project by ID
 router.delete(
     "/:id",
     param("id").isMongoId().withMessage("Invalid Project ID"),
@@ -41,6 +49,11 @@ router.delete(
 );
 
 /* Routes for Tasks */
-router.post("/:projectID/tasks", TaskController.createTask);
+// Create a new Task under a specific Project
+router.post(
+    "/:projectID/tasks",
+    validteProjectExists,
+    TaskController.createTask
+);
 
 export default router;
