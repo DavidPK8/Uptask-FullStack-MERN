@@ -8,12 +8,12 @@ export class TaskController {
             const task = new Task(req.body);
             task.projectID = req.project._id as Types.ObjectId;
             req.project.tasks.push(task._id as Types.ObjectId);
-            await task.save();
-            await req.project.save();
+            await Promise.allSettled([task.save(), req.project.save()]);
+
             res.status(201).send({ msg: "Task created successfully" });
         } catch (error) {
             res.status(500).send({
-                msg: "There was a problem creating the task",
+                error: error.message,
             });
         }
     };

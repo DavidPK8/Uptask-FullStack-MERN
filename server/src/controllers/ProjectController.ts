@@ -10,7 +10,7 @@ export class ProjectController {
             res.status(201).send({ msg: "Project created successfully" });
         } catch (error) {
             res.status(500).send({
-                msg: "There was a problem creating the project",
+                error: error.message,
             });
         }
     };
@@ -21,7 +21,7 @@ export class ProjectController {
             res.json({ projects });
         } catch (error) {
             res.status(500).send({
-                msg: "There was a problem getting the projects",
+                error: error.message,
             });
         }
     };
@@ -34,13 +34,13 @@ export class ProjectController {
 
             if (!project) {
                 const error = new Error("Project not found");
-                return res.status(404).send({ msg: error.message });
+                return res.status(404).send({ error: error.message });
             }
 
             res.json({ project });
         } catch (error) {
             res.status(500).send({
-                msg: "There was a problem getting the project",
+                error: error.message,
             });
         }
     };
@@ -53,13 +53,13 @@ export class ProjectController {
 
             if (!project) {
                 const error = new Error("Project not found");
-                return res.status(404).send({ msg: error.message });
+                return res.status(404).send({ error: error.message });
             }
 
             res.send({ msg: "Project updated successfully" });
         } catch (error) {
             res.status(500).send({
-                msg: "There was a problem updating the project",
+                error: error.message,
             });
         }
     };
@@ -72,13 +72,13 @@ export class ProjectController {
 
             if (!project) {
                 const error = new Error("Project not found");
-                return res.status(404).send({ msg: error.message });
+                return res.status(404).send({ error: error.message });
             }
 
             res.send({ msg: "Project deleted successfully" });
         } catch (error) {
             res.status(500).send({
-                msg: "There was a problem deleting the project",
+                error: error.message,
             });
         }
     };

@@ -20,14 +20,14 @@ export async function validteProjectExists(
 
         if (!project) {
             const error = new Error("Project not found");
-            return res.status(404).send({ msg: error.message });
+            return res.status(404).send({ error: error.message });
         }
 
         req.project = project;
         next();
     } catch (error) {
         res.status(500).json({
-            msg: "There was a problem validating the project",
+            error: error.message,
         });
     }
 }

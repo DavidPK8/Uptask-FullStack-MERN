@@ -52,6 +52,10 @@ router.delete(
 // Create a new Task under a specific Project
 router.post(
     "/:projectID/tasks",
+    param("id").isMongoId().withMessage("Invalid Project ID"),
+    body("taskName").notEmpty().withMessage("Task name is required"),
+    body("description").notEmpty().withMessage("Description is required"),
+    handleInputErrors,
     validteProjectExists,
     TaskController.createTask
 );
