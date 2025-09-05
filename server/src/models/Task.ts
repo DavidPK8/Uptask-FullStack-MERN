@@ -13,7 +13,7 @@ export type TaskStatus = (typeof taskStatus)[keyof typeof taskStatus];
 export interface ITask extends Document {
     taskName: string;
     description: string;
-    projectID: Types.ObjectId;
+    project: Types.ObjectId;
     status: TaskStatus;
 }
 
@@ -29,7 +29,7 @@ export const TaskSchema: Schema = new Schema(
             trim: true,
             required: true,
         },
-        projectID: {
+        project: {
             type: Types.ObjectId,
             ref: "Project",
             required: true,

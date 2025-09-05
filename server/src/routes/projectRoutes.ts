@@ -49,10 +49,11 @@ router.delete(
 );
 
 /* Routes for Tasks */
+router.param("/projectID", validateProjectExists);
+
 // Create a new Task under a specific Project
 router.post(
     "/:projectID/tasks",
-    validateProjectExists,
     param("projectID").isMongoId().withMessage("Invalid Project ID"),
     body("taskName").notEmpty().withMessage("Task name is required"),
     body("description").notEmpty().withMessage("Description is required"),
@@ -62,10 +63,17 @@ router.post(
 
 router.get(
     "/:projectID/tasks",
-    validateProjectExists,
     param("projectID").isMongoId().withMessage("Invalid Project ID"),
     handleInputErrors,
-    TaskController.getProyectTask
+    TaskController.getProyectTasks
+);
+
+router.get(
+    "/:projectID/tasks/:taskID",
+    param("projectID").isMongoId().withMessage("Invalid Project ID"),
+    param("taskID").isMongoId().withMessage("Invalid Task ID"),
+    handleInputErrors,
+    TaskController.getTaskByID
 );
 
 export default router;
