@@ -50,4 +50,25 @@ export class TaskController {
             res.status(500).json({ error: error.message });
         }
     };
+
+    static updateTask = async (req: Request, res: Response) => {
+        try {
+            const { taskID } = req.params;
+            const task = await Task.findByIdAndUpdate(taskID, req.body);
+
+            if (!task) {
+                const error = new Error("Task not found");
+                return res.status(404).json({ error: error.message });
+            }
+
+            if (task.project.toString() !== req.project.id) {
+                const error = new Error("Task does not belong to this project");
+                return res.status(400).json({ error: error.message });
+            }
+
+            res.json({msg: "Task updated successfully"});
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    };
 }
