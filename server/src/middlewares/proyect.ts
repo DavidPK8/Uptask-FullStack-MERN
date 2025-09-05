@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import Project, { IProject } from "../models/Project";
 
+// Extend Express Request interface to include project property
 declare global {
     namespace Express {
         interface Request {
@@ -9,7 +10,7 @@ declare global {
     }
 }
 
-export async function validteProjectExists(
+export async function validateProjectExists(
     req: Request,
     res: Response,
     next: NextFunction

@@ -17,4 +17,15 @@ export class TaskController {
             });
         }
     };
+
+    static getProyectTask = async (req: Request, res: Response) => {
+        try {
+            const tasks = await Task.find({
+                projectID: req.project._id,
+            }).populate("projectID");
+            res.json(tasks);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    };
 }
