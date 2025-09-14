@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import ProjectForm from "@/components/project/ProjectForm";
 import type { ProjectFormData } from "@/types/index";
 import { createProject } from "@/api/ProjectAPI";
 
 export default function CreateProjectView() {
+    const navigate = useNavigate();
     const initialValues: ProjectFormData = {
         projectName: "",
         clientName: "",
@@ -16,8 +18,15 @@ export default function CreateProjectView() {
         formState: { errors },
     } = useForm({ defaultValues: initialValues });
 
-    const handleForm = (data: ProjectFormData) => {
-        createProject(data);
+    const handleForm = async (formData: ProjectFormData) => {
+        const data = await createProject(formData);
+
+        if (data.msg) {
+            toast.success(data.msg);
+            navigate("/");
+        } else {
+            toast.error(data.error);
+        }
     };
 
     return (
@@ -31,9 +40,9 @@ export default function CreateProjectView() {
                 <nav className="my-5">
                     <Link
                         className="bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors"
-                        to="/projects/create"
+                        to="/"
                     >
-                        Nuevo Proyecto
+                        Volver a Proyectos
                     </Link>
                 </nav>
 

@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import { Slide, ToastContainer } from "react-toastify";
 import Logo from "@/components/Logo";
 import NavMenu from "@/components/NavMenu";
 
@@ -24,6 +25,8 @@ export default function AppLayout() {
                     Todos los derechos reservados {new Date().getFullYear()}
                 </p>
             </footer>
+
+            <ToastContainer pauseOnHover={false} transition={Slide} autoClose={2500}/>
         </>
     );
 }
