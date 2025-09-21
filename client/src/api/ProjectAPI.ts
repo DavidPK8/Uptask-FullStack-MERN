@@ -2,13 +2,14 @@ import {
     dashboardProjectSchema,
     type Project,
     type ProjectFormData,
+    type ProjectResponse,
 } from "@/types/index";
 import api from "@/lib/axios";
 import { isAxiosError } from "axios";
 
 export async function createProject(formData: ProjectFormData) {
     try {
-        const { data } = await api.post("/projects", formData);
+        const { data } = await api.post<ProjectResponse>("/projects", formData);
         return data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
@@ -19,7 +20,7 @@ export async function createProject(formData: ProjectFormData) {
 
 export async function getProjects() {
     try {
-        const { data } = await api("/projects");
+        const { data } = await api<ProjectResponse>("/projects");
         const response = dashboardProjectSchema.safeParse(data.projects);
 
         if (response.success) {
@@ -34,7 +35,7 @@ export async function getProjects() {
 
 export async function getProjectByID(id: Project["_id"]) {
     try {
-        const { data } = await api(`/projects/${id}`);
+        const { data } = await api<ProjectResponse>(`/projects/${id}`);
 
         return data.project;
     } catch (error) {
@@ -51,7 +52,7 @@ type ProjectAPIType = {
 
 export async function updateProject({ formData, projectID }: ProjectAPIType) {
     try {
-        const { data } = await api.put(`/projects/${projectID}`, formData);
+        const { data } = await api.put<ProjectResponse>(`/projects/${projectID}`, formData);
 
         return data;
     } catch (error) {

@@ -23,4 +23,10 @@ export type ProjectFormData = Pick<
     "projectName" | "clientName" | "description"
 >;
 
-export type dashboardProject = z.infer<typeof dashboardProjectSchema>;
+export type DashboardProject = z.infer<typeof dashboardProjectSchema>;
+
+export type ProjectResponse = {
+    msg?: string;
+    project?: Project;
+    projects?: DashboardProject;
+}

@@ -26,7 +26,9 @@ export default function CreateProjectView() {
             toast.error(error.message);
         },
         onSuccess: (data) => {
-            toast.success(data.msg);
+            if (data?.msg) {
+                toast.success(data.msg);
+            }
             navigate("/");
         },
     });
