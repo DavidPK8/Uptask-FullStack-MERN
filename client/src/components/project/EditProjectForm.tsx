@@ -6,15 +6,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateProject } from "@/api/ProjectAPI";
 import { toast } from "react-toastify";
 
-type EditProjectFromProps = {
+type EditProjectFormProps = {
     data: ProjectFormData;
     projectID: Project["_id"];
 };
 
-export default function EditProjectFrom({
+export default function EditProjectForm({
     data,
     projectID,
-}: EditProjectFromProps) {
+}: EditProjectFormProps) {
     const navigate = useNavigate();
 
     const {
