@@ -7,11 +7,31 @@ import {
     TransitionChild,
 } from "@headlessui/react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import TaskForm from "./TaskForm";
+import type { TaskFormData } from "@/types/index";
 
 export default function AddTaskModal() {
     const navigate = useNavigate();
     const location = useLocation();
     const showModal = location.search.includes("newtask") ? true : false;
+
+    const initialValues: TaskFormData = {
+        taskName: "",
+        description: "",
+    };
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        defaultValues: initialValues,
+    });
+
+    const handleCreateTask = (formData: TaskFormData) => {
+        console.log(formData);
+    };
 
     return (
         <>
@@ -60,6 +80,25 @@ export default function AddTaskModal() {
                                             una tarea
                                         </span>
                                     </p>
+
+                                    <form
+                                        className="mt-10 space-y-3"
+                                        onSubmit={handleSubmit(
+                                            handleCreateTask
+                                        )}
+                                        noValidate
+                                    >
+                                        <TaskForm
+                                            register={register}
+                                            errors={errors}
+                                        />
+
+                                        <input
+                                            type="submit"
+                                            value="Guardar Tarea"
+                                            className="bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3 text-white uppercase font-bold cursor-pointer transition-colors"
+                                        />
+                                    </form>
                                 </DialogPanel>
                             </TransitionChild>
                         </div>
