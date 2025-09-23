@@ -1,36 +1,5 @@
 import { z } from "zod";
 
-// Projects
-export const projectSchema = z.object({
-    _id: z.string(),
-    projectName: z.string(),
-    clientName: z.string(),
-    description: z.string(),
-});
-
-export const dashboardProjectSchema = z.array(
-    projectSchema.pick({
-        _id: true,
-        clientName: true,
-        projectName: true,
-        description: true,
-    })
-);
-
-export type Project = z.infer<typeof projectSchema>;
-export type ProjectFormData = Pick<
-    Project,
-    "projectName" | "clientName" | "description"
->;
-
-export type DashboardProject = z.infer<typeof dashboardProjectSchema>;
-
-export type ProjectResponse = {
-    msg?: string;
-    project?: Project;
-    projects?: DashboardProject;
-};
-
 // Tasks
 export const taskStatusSchema = z.enum([
     "pending",
@@ -67,4 +36,36 @@ export type TaskResponse = {
     msg?: string;
     task?: Task;
     tasks?: DashboardTask;
+};
+
+// Projects
+export const projectSchema = z.object({
+    _id: z.string(),
+    projectName: z.string(),
+    clientName: z.string(),
+    description: z.string(),
+    tasks: z.array(taskSchema),
+});
+
+export const dashboardProjectSchema = z.array(
+    projectSchema.pick({
+        _id: true,
+        clientName: true,
+        projectName: true,
+        description: true,
+    })
+);
+
+export type Project = z.infer<typeof projectSchema>;
+export type ProjectFormData = Pick<
+    Project,
+    "projectName" | "clientName" | "description"
+>;
+
+export type DashboardProject = z.infer<typeof dashboardProjectSchema>;
+
+export type ProjectResponse = {
+    msg?: string;
+    project?: Project;
+    projects?: DashboardProject;
 };
