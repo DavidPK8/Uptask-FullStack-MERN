@@ -24,7 +24,7 @@ export class TaskController {
                 project: req.project.id,
             }).populate("project");
 
-            res.json(tasks);
+            res.json({ tasks: tasks });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -32,7 +32,7 @@ export class TaskController {
 
     static getTaskByID = async (req: Request, res: Response) => {
         try {
-            res.json(req.task);
+            res.json({ task: req.task });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

@@ -29,6 +29,7 @@ export default function CreateProjectView() {
             if (data?.msg) {
                 toast.success(data.msg);
             }
+
             navigate("/");
         },
     });

@@ -33,9 +33,9 @@ export async function getProjects() {
     }
 }
 
-export async function getProjectByID(id: Project["_id"]) {
+export async function getProjectByID(projectID: Project["_id"]) {
     try {
-        const { data } = await api<ProjectResponse>(`/projects/${id}`);
+        const { data } = await api<ProjectResponse>(`/projects/${projectID}`);
 
         return data.project;
     } catch (error) {
@@ -65,9 +65,11 @@ export async function updateProject({ formData, projectID }: ProjectAPIType) {
     }
 }
 
-export async function deleteProject(id: Project["_id"]) {
+export async function deleteProject(projectID: Project["_id"]) {
     try {
-        const { data } = await api.delete<ProjectResponse>(`/projects/${id}`);
+        const { data } = await api.delete<ProjectResponse>(
+            `/projects/${projectID}`
+        );
 
         return data;
     } catch (error) {

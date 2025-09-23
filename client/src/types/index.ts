@@ -48,9 +48,23 @@ export const taskSchema = z.object({
     status: taskStatusSchema,
 });
 
+export const dashboardTaskSchema = z.array(
+    taskSchema.pick({
+        _id: true,
+        taskName: true,
+        description: true,
+        project: true,
+        status: true,
+    })
+);
+
 export type Task = z.infer<typeof taskSchema>;
 export type TaskFormData = Pick<Task, "taskName" | "description">;
 
+export type DashboardTask = z.infer<typeof dashboardTaskSchema>;
+
 export type TaskResponse = {
     msg?: string;
+    task?: Task;
+    tasks?: DashboardTask;
 };

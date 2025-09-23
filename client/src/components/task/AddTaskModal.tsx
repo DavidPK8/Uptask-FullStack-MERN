@@ -6,15 +6,24 @@ import {
     Transition,
     TransitionChild,
 } from "@headlessui/react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
 import TaskForm from "./TaskForm";
 import type { TaskFormData } from "@/types/index";
+import { createTask } from "@/api/TaskAPI";
+import { toast } from "react-toastify";
 
 export default function AddTaskModal() {
     const navigate = useNavigate();
+
+    // Validar si se muestra el modal
     const location = useLocation();
     const showModal = location.search.includes("newtask") ? true : false;
+
+    // Obtener ProjectID
+    const params = useParams();
+    const projectID = params.projectID!;
 
     const initialValues: TaskFormData = {
         taskName: "",
@@ -24,13 +33,34 @@ export default function AddTaskModal() {
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm({
         defaultValues: initialValues,
     });
 
+    const { mutate } = useMutation({
+        mutationFn: createTask,
+        onError: (error) => {
+            toast.error(error.message);
+        },
+        onSuccess: (data) => {
+            if (data?.msg) {
+                toast.success(data.msg);
+            }
+
+            reset();
+            navigate(location.pathname, { replace: true });
+        },
+    });
+
     const handleCreateTask = (formData: TaskFormData) => {
-        console.log(formData);
+        const data = {
+            formData,
+            projectID,
+        };
+
+        mutate(data);
     };
 
     return (
