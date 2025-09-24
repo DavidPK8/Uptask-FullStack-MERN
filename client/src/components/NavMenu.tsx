@@ -1,13 +1,18 @@
 import { Fragment } from "react";
-import { Popover, PopoverButton, PopoverPanel, Transition } from "@headlessui/react";
+import {
+    Popover,
+    PopoverButton,
+    PopoverPanel,
+    Transition,
+} from "@headlessui/react";
 import { Bars3Icon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 
 export default function NavMenu() {
     return (
         <Popover className="relative">
-            <PopoverButton className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 p-1 rounded-lg bg-purple-400">
-                <Bars3Icon className="w-8 h-8 text-white " />
+            <PopoverButton className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 p-1 rounded-lg bg-purple-400 cursor-pointer">
+                <Bars3Icon className="w-8 h-8 text-white" />
             </PopoverButton>
 
             <Transition
@@ -24,18 +29,18 @@ export default function NavMenu() {
                         <p className="text-center">Hola: Usuario</p>
                         <Link
                             to="/profile"
-                            className="block p-2 hover:text-purple-950"
+                            className="block p-2 hover:underline"
                         >
                             Mi Perfil
                         </Link>
                         <Link
                             to="/"
-                            className="block p-2 hover:text-purple-950"
+                            className="block p-2 hover:underline"
                         >
                             Mis Proyectos
                         </Link>
                         <button
-                            className="block p-2 hover:text-purple-950"
+                            className="block p-2 text-red-500 cursor-pointer hover:underline"
                             type="button"
                             onClick={() => {}}
                         >
