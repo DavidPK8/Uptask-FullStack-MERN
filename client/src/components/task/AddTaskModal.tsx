@@ -8,7 +8,7 @@ import {
 } from "@headlessui/react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import TaskForm from "./TaskForm";
 import type { TaskFormData } from "@/types/index";
 import { createTask } from "@/api/TaskAPI";
@@ -39,6 +39,7 @@ export default function AddTaskModal() {
         defaultValues: initialValues,
     });
 
+    const queryClient = useQueryClient();
     const { mutate } = useMutation({
         mutationFn: createTask,
         onError: (error) => {
@@ -46,6 +47,9 @@ export default function AddTaskModal() {
         },
         onSuccess: (data) => {
             if (data?.msg) {
+                queryClient.invalidateQueries({
+                    queryKey: ["editProject", projectID],
+                });
                 toast.success(data.msg);
             }
 
