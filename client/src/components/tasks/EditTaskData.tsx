@@ -1,6 +1,7 @@
 import { useLocation, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getTaskByID } from "@/api/TaskAPI";
+import EditTaskModal from "./EditTaskModal";
 
 export default function EditTaskData() {
     // Recuperando el ID del proyecto
@@ -18,7 +19,10 @@ export default function EditTaskData() {
                 projectID,
                 taskID,
             }),
+        enabled: !!taskID,
     });
 
-    return <div>EditTaskData</div>;
+    if (data) {
+        return <EditTaskModal data={data} />;
+    }
 }
