@@ -48,7 +48,7 @@ export default function AddTaskModal() {
         onSuccess: (data) => {
             if (data?.msg) {
                 queryClient.invalidateQueries({
-                    queryKey: ["editProject", projectID],
+                    queryKey: ["project", projectID],
                 });
                 toast.success(data.msg);
             }

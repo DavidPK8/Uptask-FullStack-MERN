@@ -54,3 +54,18 @@ export async function updateTask({
         }
     }
 }
+
+export async function deleteTask({
+    projectID,
+    taskID,
+}: Pick<TaskAPI, "projectID" | "taskID">) {
+    try {
+        const url = `/projects/${projectID}/tasks/${taskID}`;
+        const { data } = await api.delete<TaskResponse>(url);
+        return data;
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+    }
+}
