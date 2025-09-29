@@ -1,6 +1,12 @@
 import { isAxiosError } from "axios";
 import api from "@/lib/axios";
-import type { Project, Task, TaskFormData, TaskResponse } from "../types";
+import {
+    taskSchema,
+    type Project,
+    type Task,
+    type TaskFormData,
+    type TaskResponse,
+} from "../types";
 
 type TaskAPI = {
     formData: TaskFormData;
@@ -14,7 +20,7 @@ export async function createTask({
 }: Pick<TaskAPI, "formData" | "projectID">) {
     try {
         const url = `/projects/${projectID}/tasks`;
-        const { data } = await api.post(url, formData);
+        const { data } = await api.post<TaskResponse>(url, formData);
         return data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
@@ -30,7 +36,11 @@ export async function getTaskByID({
     try {
         const url = `/projects/${projectID}/tasks/${taskID}`;
         const { data } = await api<TaskResponse>(url);
-        return data.task;
+        const response = taskSchema.safeParse(data.task);
+
+        if (response.success) {
+            return response.data;
+        }
     } catch (error) {
         if (isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);
