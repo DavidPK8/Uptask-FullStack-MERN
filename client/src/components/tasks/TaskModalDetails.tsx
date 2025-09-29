@@ -34,7 +34,7 @@ export default function TaskModalDetails() {
     const showModal = taskID ? true : false;
 
     const { data, isError } = useQuery({
-        queryKey: ["taskDetails", taskID],
+        queryKey: ["task", taskID],
         queryFn: () => getTaskByID({ projectID, taskID }),
         enabled: !!taskID,
         retry: false,
@@ -51,7 +51,7 @@ export default function TaskModalDetails() {
                     queryKey: ["project", projectID],
                 });
                 queryClient.invalidateQueries({
-                    queryKey: ["taskDetails", taskID],
+                    queryKey: ["task", taskID],
                 });
                 navigate(location.pathname, { replace: true });
                 toast.success(data.msg);
