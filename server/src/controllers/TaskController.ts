@@ -13,7 +13,7 @@ export class TaskController {
             res.status(201).json({ msg: "Task created successfully" });
         } catch (error) {
             res.status(500).json({
-                error: error.message,
+                error: "There was an error",
             });
         }
     };
@@ -26,7 +26,7 @@ export class TaskController {
 
             res.json({ tasks: tasks });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: "There was an error" });
         }
     };
 
@@ -34,7 +34,7 @@ export class TaskController {
         try {
             res.json({ task: req.task });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: "There was an error" });
         }
     };
 
@@ -47,7 +47,7 @@ export class TaskController {
 
             res.json({ msg: "Task updated successfully" });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: "There was an error" });
         }
     };
 
@@ -64,7 +64,7 @@ export class TaskController {
 
             res.json({ msg: "Task deleted successfully" });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: "There was an error" });
         }
     };
 
@@ -77,7 +77,7 @@ export class TaskController {
 
             res.json({ msg: "Status Task updated successfully" });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: "There was an error" });
         }
     };
 }

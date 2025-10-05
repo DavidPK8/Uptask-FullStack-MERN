@@ -7,10 +7,10 @@ export class ProjectController {
 
         try {
             await project.save();
-            res.status(201).json({ msg: "Project created successfully"});
+            res.status(201).json({ msg: "Project created successfully" });
         } catch (error) {
             res.status(500).json({
-                error: error.message,
+                error: "There was an error",
             });
         }
     };
@@ -21,7 +21,7 @@ export class ProjectController {
             res.json({ projects });
         } catch (error) {
             res.status(500).json({
-                error: error.message,
+                error: "There was an error",
             });
         }
     };
@@ -40,7 +40,7 @@ export class ProjectController {
             res.json({ project });
         } catch (error) {
             res.status(500).json({
-                error: error.message,
+                error: "There was an error",
             });
         }
     };
@@ -65,7 +65,7 @@ export class ProjectController {
             res.json({ msg: "Project updated successfully" });
         } catch (error) {
             res.status(500).json({
-                error: error.message,
+                error: "There was an error",
             });
         }
     };
@@ -86,7 +86,7 @@ export class ProjectController {
             res.json({ msg: "Project deleted successfully" });
         } catch (error) {
             res.status(500).json({
-                error: error.message,
+                error: "There was an error",
             });
         }
     };
