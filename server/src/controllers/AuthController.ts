@@ -5,7 +5,13 @@ import { hashPassword } from "../utils/auth";
 export class AuthController {
     static createAccount = async (req: Request, res: Response) => {
         try {
-            const { password } = req.body;
+            const { password, email } = req.body;
+
+            const userExists = await User.findOne({ email });
+
+            if (userExists) {
+                return res.status(409).json({ msg: "Accound already exists" });
+            }
 
             const user = new User(req.body);
 
