@@ -49,10 +49,15 @@ export class AuthController {
 
             if (!tokenExists) {
                 const error = new Error("Invalid Token");
-                res.status(401).json({ error: error.message });
+                return res.status(401).json({ error: error.message });
             }
 
-            res.json({ msg: "Account confirmed" });
+            const user = await User.findById(tokenExists.user);
+            user.confirmed = true;
+
+            await Promise.allSettled([user.save(), tokenExists.deleteOne()]);
+
+            res.json({ msg: "Account confirmed successfully" });
         } catch (error) {
             res.status(500).json({ error: "There was an error" });
         }
