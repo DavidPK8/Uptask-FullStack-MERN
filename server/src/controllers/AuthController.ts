@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import User from "../models/User";
-import { hashPassword } from "../utils/auth";
+import { checkPassword, hashPassword } from "../utils/auth";
 import Token from "../models/Token";
 import { generateToken } from "../utils/token";
 import { AuthEmail } from "../emails/AuthEmail";
@@ -69,11 +69,13 @@ export class AuthController {
 
             const user = await User.findOne({ email });
 
+            // Confirmate user exists
             if (!user) {
                 const error = new Error("User does not exist");
                 return res.status(404).json({ error: error.message });
             }
 
+            // Confirmate user is confirmed
             if (!user.confirmed) {
                 const token = new Token();
                 token.user = user.id;
@@ -93,7 +95,18 @@ export class AuthController {
                 return res.status(403).json({ error: error.message });
             }
 
-            res.json({ msg: "Autenticando..." });
+            // Check Password
+            const isPasswordCorrect = await checkPassword(
+                password,
+                user.password
+            );
+
+            if (!isPasswordCorrect) {
+                const error = new Error("Password is incorrect");
+                return res.status(401).json({ error: error.message });
+            }
+
+            res.json({ msg: "Autenticado..." });
         } catch (error) {
             res.status(500).json({ error: "There was an error" });
         }
