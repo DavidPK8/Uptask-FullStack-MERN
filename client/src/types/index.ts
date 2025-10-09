@@ -1,5 +1,20 @@
 import { z } from "zod";
 
+// Auth Users
+export const authSchema = z.object({
+    userName: z.string(),
+    email: z.email(),
+    password: z.string(),
+    passwordConfirmation: z.string(),
+});
+
+type Auth = z.infer<typeof authSchema>;
+export type UserLoginForm = Pick<Auth, "email" | "password">;
+export type UserRegistrationForm = Pick<
+    Auth,
+    "userName" | "email" | "password" | "passwordConfirmation"
+>;
+
 // Tasks
 export const taskStatusSchema = z.enum([
     "pending",
