@@ -13,7 +13,9 @@ export class AuthController {
             const userExists = await User.findOne({ email });
 
             if (userExists) {
-                return res.status(409).json({ msg: "Accound already exists" });
+                return res
+                    .status(409)
+                    .json({ error: "Account already exists" });
             }
 
             const user = new User(req.body);
@@ -35,7 +37,9 @@ export class AuthController {
 
             await Promise.allSettled([user.save(), token.save()]);
 
-            res.json({ msg: "Account created, check your email to confirm" });
+            res.status(201).json({
+                msg: "Account created, check your email to confirm",
+            });
         } catch (error) {
             res.status(500).json({ error: "There was an error" });
         }
