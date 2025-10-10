@@ -15,6 +15,10 @@ export type UserRegistrationForm = Pick<
     "userName" | "email" | "password" | "passwordConfirmation"
 >;
 
+export type AuthResponse = {
+    msg?: string;
+};
+
 // Tasks
 export const taskStatusSchema = z.enum([
     "pending",
