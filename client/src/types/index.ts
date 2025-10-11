@@ -6,6 +6,7 @@ export const authSchema = z.object({
     email: z.email(),
     password: z.string(),
     passwordConfirmation: z.string(),
+    token: z.string(),
 });
 
 type Auth = z.infer<typeof authSchema>;
@@ -15,9 +16,7 @@ export type UserRegistrationForm = Pick<
     "userName" | "email" | "password" | "passwordConfirmation"
 >;
 
-export type AuthResponse = {
-    msg?: string;
-};
+export type ConfirmToken = Pick<Auth, "token">;
 
 // Tasks
 export const taskStatusSchema = z.enum([
@@ -55,12 +54,6 @@ export type TaskFormData = Pick<Task, "taskName" | "description">;
 
 export type DashboardTask = z.infer<typeof dashboardTaskSchema>;
 
-export type TaskResponse = {
-    msg?: string;
-    task?: Task;
-    tasks?: DashboardTask;
-};
-
 // Projects
 export const projectSchema = z.object({
     _id: z.string(),
@@ -86,6 +79,17 @@ export type ProjectFormData = Pick<
 >;
 
 export type DashboardProject = z.infer<typeof dashboardProjectSchema>;
+
+// Responses
+export type AuthResponse = {
+    msg?: string;
+};
+
+export type TaskResponse = {
+    msg?: string;
+    task?: Task;
+    tasks?: DashboardTask;
+};
 
 export type ProjectResponse = {
     msg?: string;
