@@ -4,6 +4,7 @@ import type {
     AuthResponse,
     ConfirmToken,
     RequestConfirmationCodeForm,
+    UserLoginForm,
     UserRegistrationForm,
 } from "../types";
 
@@ -35,6 +36,18 @@ export async function requestCode(email: RequestConfirmationCodeForm) {
     try {
         const url = "/auth/request-code";
         const { data } = await api.post<AuthResponse>(url, email);
+        return data;
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+    }
+}
+
+export async function authenticateUser(formData: UserLoginForm) {
+    try {
+        const url = "/auth/login";
+        const { data } = await api.post<AuthResponse>(url, formData);
         return data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
