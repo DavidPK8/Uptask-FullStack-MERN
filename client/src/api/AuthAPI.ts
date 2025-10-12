@@ -3,6 +3,7 @@ import { isAxiosError } from "axios";
 import type {
     AuthResponse,
     ConfirmToken,
+    RequestConfirmationCodeForm,
     UserRegistrationForm,
 } from "../types";
 
@@ -22,6 +23,18 @@ export async function confirmAccount(token: ConfirmToken) {
     try {
         const url = "/auth/confirm-account";
         const { data } = await api.post<AuthResponse>(url, token);
+        return data;
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+    }
+}
+
+export async function requestCode(email: RequestConfirmationCodeForm) {
+    try {
+        const url = "/auth/request-code";
+        const { data } = await api.post<AuthResponse>(url, email);
         return data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
