@@ -3,6 +3,7 @@ import { isAxiosError } from "axios";
 import type {
     AuthResponse,
     ConfirmToken,
+    ForgotPasswordForm,
     RequestConfirmationCodeForm,
     UserLoginForm,
     UserRegistrationForm,
@@ -47,6 +48,18 @@ export async function requestCode(email: RequestConfirmationCodeForm) {
 export async function authenticateUser(formData: UserLoginForm) {
     try {
         const url = "/auth/login";
+        const { data } = await api.post<AuthResponse>(url, formData);
+        return data;
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+    }
+}
+
+export async function forgotPassword(formData: ForgotPasswordForm) {
+    try {
+        const url = "/auth/forgot-password";
         const { data } = await api.post<AuthResponse>(url, formData);
         return data;
     } catch (error) {

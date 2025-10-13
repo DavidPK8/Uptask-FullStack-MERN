@@ -10,14 +10,15 @@ export const authSchema = z.object({
 });
 
 type Auth = z.infer<typeof authSchema>;
+
 export type UserLoginForm = Pick<Auth, "email" | "password">;
 export type UserRegistrationForm = Pick<
     Auth,
     "userName" | "email" | "password" | "passwordConfirmation"
 >;
 export type RequestConfirmationCodeForm = Pick<Auth, "email">;
-
-export type ConfirmToken = Pick<Auth, "token">;
+export type ForgotPasswordForm = Pick<Auth, "email">;
+export type ConfirmToken = Pick<Auth, "password">;
 
 // Tasks
 export const taskStatusSchema = z.enum([
