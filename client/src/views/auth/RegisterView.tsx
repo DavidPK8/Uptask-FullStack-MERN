@@ -44,8 +44,10 @@ export default function RegisterView() {
 
     return (
         <>
-            <h1 className="text-5xl font-black text-white">Crear Cuenta</h1>
-            <p className="text-2xl font-light text-white mt-5">
+            <h1 className="text-5xl font-black text-white text-center">
+                Crear Cuenta
+            </h1>
+            <p className="text-2xl font-light text-white mt-5 text-center">
                 Llena el formulario para {""}
                 <span className=" text-fuchsia-500 font-bold">
                     {" "}
@@ -55,7 +57,7 @@ export default function RegisterView() {
 
             <form
                 onSubmit={handleSubmit(handleRegister)}
-                className="space-y-8 p-10  bg-white mt-10"
+                className="space-y-8 p-10 bg-white mt-10"
                 noValidate
             >
                 <div className="flex flex-col gap-5">
