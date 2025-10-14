@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { AuthController } from "../controllers/AuthController";
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 import { handleInputErrors } from "../middlewares/validation";
 
 const router = Router();
@@ -50,6 +50,30 @@ router.post(
     body("email").isEmail().withMessage("Invalid Email"),
     handleInputErrors,
     AuthController.forgotPassword
+);
+
+router.post(
+    "/validate-token",
+    body("token").notEmpty().withMessage("Token is Required"),
+    handleInputErrors,
+    AuthController.validateToken
+);
+
+router.post(
+    "/update-password/:token",
+    param("token").isNumeric().withMessage("Invalid Token"),
+    body("password")
+        .isLength({ min: 8 })
+        .withMessage("Password must be at least 8 characters"),
+    body("passwordConfirmation").custom((value, { req }) => {
+        if (value !== req.body.password) {
+            throw new Error("Passwords do not match");
+        }
+
+        return true;
+    }),
+    handleInputErrors,
+    AuthController.updatePasswordWithToken
 );
 
 export default router;
