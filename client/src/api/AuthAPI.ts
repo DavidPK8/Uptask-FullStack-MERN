@@ -4,6 +4,7 @@ import type {
     AuthResponse,
     ConfirmToken,
     ForgotPasswordForm,
+    NewPasswordForm,
     RequestConfirmationCodeForm,
     UserLoginForm,
     UserRegistrationForm,
@@ -73,6 +74,24 @@ export async function validateToken(token: ConfirmToken) {
     try {
         const url = "/auth/validate-token";
         const { data } = await api.post<AuthResponse>(url, token);
+        return data;
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+    }
+}
+
+export async function updatePasswordWithToken({
+    formData,
+    token,
+}: {
+    formData: NewPasswordForm;
+    token: ConfirmToken["token"];
+}) {
+    try {
+        const url = `/auth/update-password/${token}`;
+        const { data } = await api.post<AuthResponse>(url, formData);
         return data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
