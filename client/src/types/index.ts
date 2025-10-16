@@ -86,6 +86,7 @@ export type DashboardProject = z.infer<typeof dashboardProjectSchema>;
 // Responses
 export type AuthResponse = {
     msg?: string;
+    token?: string;
 };
 
 export type TaskResponse = {
