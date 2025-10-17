@@ -1,4 +1,14 @@
+import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
+import User, { IUser } from "../models/User";
+
+declare global {
+    namespace Express {
+        interface Request {
+            user?: IUser;
+        }
+    }
+}
 
 export const authenticate = async (
     req: Request,
@@ -13,6 +23,24 @@ export const authenticate = async (
     }
 
     const token = bearer.split(" ")[1];
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        if (typeof decoded === "object" && decoded.id) {
+            const user = await User.findById(decoded.id).select(
+                "_id userName email"
+            );
+
+            if (user) {
+                req.user = user;
+            } else {
+                return res.status(500).json({ error: "Invalid Token" });
+            }
+        }
+    } catch (error) {
+        return res.status(500).json({ error: "Invalid Token" });
+    }
 
     next();
 };
