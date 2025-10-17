@@ -5,6 +5,7 @@ import { TaskController } from "../controllers/TaskController";
 import { handleInputErrors } from "../middlewares/validation";
 import { validateProjectExists } from "../middlewares/proyect";
 import { taskBeLongsToProject, validateTaskExists } from "../middlewares/task";
+import { authenticate } from "../middlewares/auth";
 
 const router = Router();
 
@@ -12,6 +13,7 @@ const router = Router();
 // Create a new Project
 router.post(
     "/",
+    authenticate,
     body("projectName").notEmpty().withMessage("Project name is required"),
     body("clientName").notEmpty().withMessage("Client name is required"),
     body("description").notEmpty().withMessage("Description is required"),
