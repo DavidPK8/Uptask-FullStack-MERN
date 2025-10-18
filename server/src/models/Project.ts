@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document, PopulatedDoc, Types } from "mongoose";
 import { ITask } from "./Task";
+import { IUser } from "./User";
 
 // Definition of the Project Interface
 export interface IProject extends Document {
@@ -7,6 +8,7 @@ export interface IProject extends Document {
     clientName: string;
     description: string;
     tasks: PopulatedDoc<ITask & Document>[];
+    manager: PopulatedDoc<IUser & Document>;
 }
 
 // Definition of the Project Schema
@@ -33,6 +35,11 @@ const ProjectSchema: Schema = new Schema(
                 ref: "Task",
             },
         ],
+        manager: {
+            type: Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
     },
     { timestamps: true }
 );
