@@ -34,13 +34,12 @@ export const authenticate = async (
 
             if (user) {
                 req.user = user;
+                next();
             } else {
-                return res.status(500).json({ error: "Invalid Token" });
+                res.status(500).json({ error: "Invalid Token" });
             }
         }
     } catch (error) {
-        return res.status(500).json({ error: "Invalid Token" });
+        res.status(500).json({ error: "Invalid Token" });
     }
-
-    next();
 };
