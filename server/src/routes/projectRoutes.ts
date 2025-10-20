@@ -9,11 +9,12 @@ import { authenticate } from "../middlewares/auth";
 
 const router = Router();
 
+router.use(authenticate);
+
 /* Routes for Projects */
 // Create a new Project
 router.post(
     "/",
-    authenticate,
     body("projectName").notEmpty().withMessage("Project name is required"),
     body("clientName").notEmpty().withMessage("Client name is required"),
     body("description").notEmpty().withMessage("Description is required"),
@@ -22,7 +23,7 @@ router.post(
 );
 
 // Get all Projects
-router.get("/", authenticate, ProjectController.getAllProjects);
+router.get("/", ProjectController.getAllProjects);
 
 // Get a Project by ID
 router.get(

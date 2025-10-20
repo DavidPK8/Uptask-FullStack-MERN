@@ -42,6 +42,11 @@ export class ProjectController {
                 return res.status(404).json({ error: error.message });
             }
 
+            if (project.manager.toString() !== req.user.id.toString()) {
+                const error = new Error("Invalid Action");
+                return res.status(404).json({ error: error.message });
+            }
+
             res.json({ project });
         } catch (error) {
             res.status(500).json({
@@ -58,6 +63,13 @@ export class ProjectController {
 
             if (!project) {
                 const error = new Error("Project not found");
+                return res.status(404).json({ error: error.message });
+            }
+
+            if (project.manager.toString() !== req.user.id.toString()) {
+                const error = new Error(
+                    "Only the manager can update a project"
+                );
                 return res.status(404).json({ error: error.message });
             }
 
@@ -83,6 +95,13 @@ export class ProjectController {
 
             if (!project) {
                 const error = new Error("Project not found");
+                return res.status(404).json({ error: error.message });
+            }
+
+            if (project.manager.toString() !== req.user.id.toString()) {
+                const error = new Error(
+                    "Only the manager can delete a project"
+                );
                 return res.status(404).json({ error: error.message });
             }
 
