@@ -6,9 +6,16 @@ import {
     Transition,
 } from "@headlessui/react";
 import { Bars3Icon } from "@heroicons/react/20/solid";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function NavMenu() {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("AUTH_TOKEN");
+        navigate("/auth/login");
+    };
+
     return (
         <Popover className="relative">
             <PopoverButton className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 p-1 rounded-lg bg-purple-400 cursor-pointer">
@@ -33,16 +40,13 @@ export default function NavMenu() {
                         >
                             Mi Perfil
                         </Link>
-                        <Link
-                            to="/"
-                            className="block p-2 hover:underline"
-                        >
+                        <Link to="/" className="block p-2 hover:underline">
                             Mis Proyectos
                         </Link>
                         <button
                             className="block p-2 text-red-500 cursor-pointer hover:underline"
                             type="button"
-                            onClick={() => {}}
+                            onClick={handleLogout}
                         >
                             Cerrar Sesión
                         </button>
