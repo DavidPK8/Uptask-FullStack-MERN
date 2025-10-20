@@ -33,7 +33,7 @@ export default function AppLayout() {
                             </Link>
                         </div>
 
-                        <NavMenu />
+                        <NavMenu userName={data.userName} />
                     </div>
                 </header>
 
