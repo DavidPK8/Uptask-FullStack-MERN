@@ -6,12 +6,14 @@ import { handleInputErrors } from "../middlewares/validation";
 import { validateProjectExists } from "../middlewares/proyect";
 import { taskBeLongsToProject, validateTaskExists } from "../middlewares/task";
 import { authenticate } from "../middlewares/auth";
+import { TeamMemberController } from "../controllers/TeamController";
 
 const router = Router();
 
 router.use(authenticate);
 
 /* Routes for Projects */
+
 // Create a new Project
 router.post(
     "/",
@@ -53,6 +55,7 @@ router.delete(
 );
 
 /* Routes for Tasks */
+
 router.param("projectID", validateProjectExists);
 
 // Create a new Task under a specific Project
@@ -108,6 +111,23 @@ router.post(
     body("status").notEmpty().withMessage("Status is required"),
     handleInputErrors,
     TaskController.updateStatusTask
+);
+
+// Routes for Teams
+
+router.post(
+    "/:projectID/team/find",
+    param("projectID").isMongoId().withMessage("Invalid Project ID"),
+    body("email").isEmail().toLowerCase().withMessage("Invalid email"),
+    handleInputErrors,
+    TeamMemberController.findMemberByEmail
+);
+
+router.post(
+    "/:projectID/team",
+    param("projectID").isMongoId().withMessage("Invalid Project ID"),
+    handleInputErrors,
+    TeamMemberController.addMemberByID
 );
 
 export default router;
