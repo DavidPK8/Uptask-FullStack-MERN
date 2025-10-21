@@ -126,6 +126,7 @@ router.post(
 router.post(
     "/:projectID/team",
     param("projectID").isMongoId().withMessage("Invalid Project ID"),
+    body("id").isMongoId().withMessage("Invalid User ID"),
     handleInputErrors,
     TeamMemberController.addMemberByID
 );
