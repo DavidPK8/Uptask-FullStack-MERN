@@ -35,4 +35,21 @@ export class TeamMemberController {
 
         res.json({ msg: "Member added to the project successfully" });
     };
+
+    static removeMemberByID = async (req: Request, res: Response) => {
+        const { id } = req.body;
+
+        if (!req.project.team.includes(id)) {
+            const error = new Error("User is not a member of the project");
+            return res.status(400).json({ error: error.message });
+        }
+
+        req.project.team = req.project.team.filter(
+            (memberID) => memberID.toString() !== id
+        );
+
+        await req.project.save();
+
+        res.json({ msg: "Member removed of the project successfully" });
+    };
 }
