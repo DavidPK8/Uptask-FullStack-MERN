@@ -123,6 +123,13 @@ router.post(
     TeamMemberController.findMemberByEmail
 );
 
+router.get(
+    "/:projectID/team",
+    param("projectID").isMongoId().withMessage("Invalid Project ID"),
+    handleInputErrors,
+    TeamMemberController.getProjectTeam
+);
+
 router.post(
     "/:projectID/team",
     param("projectID").isMongoId().withMessage("Invalid Project ID"),
