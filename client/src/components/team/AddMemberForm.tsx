@@ -10,6 +10,7 @@ export default function AddMemberForm() {
     const initialValues: TeamMemberForm = {
         email: "",
     };
+
     const params = useParams();
     const projectID = params.projectID!;
 
@@ -31,6 +32,11 @@ export default function AddMemberForm() {
         };
 
         mutation.mutate(data);
+    };
+
+    const resetData = () => {
+        reset();
+        mutation.reset();
     };
 
     return (
@@ -85,7 +91,9 @@ export default function AddMemberForm() {
                 </div>
             )}
 
-            {mutation.data && <SearchResult user={mutation.data} />}
+            {mutation.data && (
+                <SearchResult user={mutation.data} reset={resetData} />
+            )}
         </>
     );
 }
