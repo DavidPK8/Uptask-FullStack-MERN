@@ -13,7 +13,6 @@ export async function findUserByEmail({
         const url = `/projects/${projectID}/team/find`;
         const { data } = await api.post<ProjectTeamResponse>(url, formData);
 
-        console.log(data.user);
         return data.user;
     } catch (error) {
         if (isAxiosError(error) && error.response) {

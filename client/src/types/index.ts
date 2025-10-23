@@ -102,7 +102,7 @@ export type DashboardProject = z.infer<typeof dashboardProjectSchema>;
 // Project Team
 
 export const teamMemberSchema = userSchema.pick({
-    name: true,
+    userName: true,
     email: true,
     _id: true,
 });
