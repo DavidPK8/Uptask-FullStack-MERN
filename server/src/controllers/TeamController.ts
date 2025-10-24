@@ -40,6 +40,13 @@ export class TeamMemberController {
             return res.status(400).json({ error: error.message });
         }
 
+        if (req.user.id === user.id) {
+            const error = new Error(
+                "You're the manager of this project and cannot be added as a team member"
+            );
+            return res.status(409).json({ error: error.message });
+        }
+
         req.project.team.push(user.id);
         await req.project.save();
 
