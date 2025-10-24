@@ -1,10 +1,11 @@
 import { isAxiosError } from "axios";
 import api from "@/lib/axios";
-import type {
-    Project,
-    ProjectTeamResponse,
-    TeamMember,
-    TeamMemberForm,
+import {
+    teamMembersSchema,
+    type Project,
+    type ProjectTeamResponse,
+    type TeamMember,
+    type TeamMemberForm,
 } from "../types";
 
 export async function findUserByEmail({
@@ -40,6 +41,24 @@ export async function addUserToProject({
         const { data } = await api.post<ProjectTeamResponse>(url, { id });
 
         return data;
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            throw new Error(
+                error.response.data.message || error.response.data.error
+            );
+        }
+    }
+}
+
+export async function getProjectTeam(projectID: Project["_id"]) {
+    try {
+        const url = `/projects/${projectID}/team`;
+        const { data } = await api<ProjectTeamResponse>(url);
+        const response = teamMembersSchema.safeParse(data.project);
+
+        if (response.success) {
+            return response.data;
+        }
     } catch (error) {
         if (isAxiosError(error) && error.response) {
             throw new Error(

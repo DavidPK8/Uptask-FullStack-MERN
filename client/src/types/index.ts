@@ -107,6 +107,7 @@ export const teamMemberSchema = userSchema.pick({
     _id: true,
 });
 
+export const teamMembersSchema = z.array(teamMemberSchema);
 export type TeamMember = z.infer<typeof teamMemberSchema>;
 export type TeamMemberForm = Pick<TeamMember, "email">;
 
@@ -131,8 +132,6 @@ export type ProjectResponse = {
 
 export type ProjectTeamResponse = {
     msg?: string;
-    project?: {
-        team: User[];
-    };
+    project?: TeamMember[];
     user?: User;
 };
