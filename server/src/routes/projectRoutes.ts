@@ -4,7 +4,11 @@ import { ProjectController } from "../controllers/ProjectController";
 import { TaskController } from "../controllers/TaskController";
 import { handleInputErrors } from "../middlewares/validation";
 import { validateProjectExists } from "../middlewares/proyect";
-import { taskBeLongsToProject, validateTaskExists } from "../middlewares/task";
+import {
+    hasAuthorization,
+    taskBeLongsToProject,
+    validateTaskExists,
+} from "../middlewares/task";
 import { authenticate } from "../middlewares/auth";
 import { TeamMemberController } from "../controllers/TeamController";
 
@@ -61,6 +65,7 @@ router.param("projectID", validateProjectExists);
 // Create a new Task under a specific Project
 router.post(
     "/:projectID/tasks",
+    hasAuthorization,
     param("projectID").isMongoId().withMessage("Invalid Project ID"),
     body("taskName").notEmpty().withMessage("Task name is required"),
     body("description").notEmpty().withMessage("Description is required"),
@@ -88,6 +93,7 @@ router.get(
 
 router.put(
     "/:projectID/tasks/:taskID",
+    hasAuthorization,
     param("projectID").isMongoId().withMessage("Invalid Project ID"),
     param("taskID").isMongoId().withMessage("Invalid Task ID"),
     body("taskName").notEmpty().withMessage("Task name is required"),
@@ -98,6 +104,7 @@ router.put(
 
 router.delete(
     "/:projectID/tasks/:taskID",
+    hasAuthorization,
     param("projectID").isMongoId().withMessage("Invalid Project ID"),
     param("taskID").isMongoId().withMessage("Invalid Task ID"),
     handleInputErrors,
