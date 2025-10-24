@@ -1,7 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import AddMemberModal from "@/components/team/AddMemberModal";
-import { getProjectTeam } from "@/api/TeamAPI";
+import { getProjectTeam, removeUserFromProject } from "@/api/TeamAPI";
 import {
     Menu,
     MenuButton,
@@ -11,6 +11,7 @@ import {
 } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react/jsx-runtime";
+import { toast } from "react-toastify";
 
 export default function ProjectTeamView() {
     const params = useParams();
@@ -22,6 +23,22 @@ export default function ProjectTeamView() {
         queryKey: ["projectTeam", projectID],
         queryFn: () => getProjectTeam(projectID),
         retry: false,
+    });
+
+    const queryClient = useQueryClient();
+
+    const { mutate } = useMutation({
+        mutationFn: removeUserFromProject,
+        onError: (error) => {
+            toast.error(error.message);
+        },
+        onSuccess: (data) => {
+            if (data?.msg) {
+                toast.success(data.msg);
+            }
+
+            queryClient.invalidateQueries({ queryKey: ["projectTeam"] });
+        },
     });
 
     if (isLoading) {
@@ -108,6 +125,12 @@ export default function ProjectTeamView() {
                                                     <button
                                                         type="button"
                                                         className="block px-3 py-1 text-sm leading-6 text-red-500 cursor-pointer hover:underline"
+                                                        onClick={() =>
+                                                            mutate({
+                                                                userID: member._id,
+                                                                projectID,
+                                                            })
+                                                        }
                                                     >
                                                         Eliminar del Proyecto
                                                     </button>
@@ -120,7 +143,7 @@ export default function ProjectTeamView() {
                         ))}
                     </ul>
                 ) : (
-                    <p className="text-center py-20">
+                    <p className="text-center text-2xl font-bold py-20">
                         No hay miembros en este equipo
                     </p>
                 )}
