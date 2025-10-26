@@ -48,7 +48,7 @@ export default function TaskCard({ task, canEdit }: TaskCardProp) {
                     type="button"
                     className="text-xl font-bold text-slate-600 text-left cursor-pointer hover:underline"
                     onClick={() =>
-                        navigate(location.pathname + `?editTask=${task._id}`)
+                        navigate(location.pathname + `?viewTask=${task._id}`)
                     }
                 >
                     {task.taskName}
