@@ -18,6 +18,7 @@ import { formatDate } from "@/utils/utils";
 import { statusTranslations } from "@/locales/es";
 import { toast } from "react-toastify";
 import type { TaskStatus } from "@/types/index";
+import NotesPanel from "../notes/NotesPanel";
 
 export default function TaskModalDetails() {
     const navigate = useNavigate();
@@ -114,64 +115,75 @@ export default function TaskModalDetails() {
                                             Agregada el:{" "}
                                             {formatDate(data.createdAt)}
                                         </p>
+
                                         <p className="text-sm text-slate-400">
                                             Última actualización:{" "}
                                             {formatDate(data.updatedAt)}
                                         </p>
+
                                         <DialogTitle
                                             as="h3"
                                             className="font-black text-4xl text-slate-600 my-5"
                                         >
                                             {data.taskName}
                                         </DialogTitle>
+
                                         <p className="text-lg text-slate-500 mb-2">
                                             Descripción: {data.description}
                                         </p>
 
-                                        <div className="space-y-4">
-                                            <p className="text-lg text-slate-500 font-semibold mb-4">
-                                                Historial de cambios
-                                            </p>
+                                        {data.completedBy.length ? (
+                                            <>
+                                                <div className="space-y-4">
+                                                    <p className="text-lg text-slate-500 font-semibold mb-4">
+                                                        Historial de cambios
+                                                    </p>
 
-                                            <ul className="relative border-l-2 border-slate-300">
-                                                {data.completedBy.map(
-                                                    (activityLog, index) => (
-                                                        <li
-                                                            key={
-                                                                activityLog._id
-                                                            }
-                                                            className="mb-6 ml-6"
-                                                        >
-                                                            <div className="absolute -left-3 w-6 h-6 bg-slate-500 rounded-full border-4 border-white flex items-center justify-center">
-                                                                <span className="text-xs text-white">
-                                                                    {index + 1}
-                                                                </span>
-                                                            </div>
-                                                            <div className="text-sm">
-                                                                <span className="font-bold text-slate-600">
-                                                                    {
-                                                                        statusTranslations[
-                                                                            activityLog
-                                                                                .status
-                                                                        ]
+                                                    <ul className="relative border-l-2 border-slate-300">
+                                                        {data.completedBy.map(
+                                                            (
+                                                                activityLog,
+                                                                index
+                                                            ) => (
+                                                                <li
+                                                                    key={
+                                                                        activityLog._id
                                                                     }
-                                                                </span>{" "}
-                                                                <span className="text-slate-500">
-                                                                    por:
-                                                                </span>{" "}
-                                                                <span className="text-slate-700">
-                                                                    {
-                                                                        activityLog
-                                                                            .user
-                                                                            .userName
-                                                                    }
-                                                                </span>
-                                                            </div>
-                                                        </li>
-                                                    )
-                                                )}
-                                            </ul>
-                                        </div>
+                                                                    className="mb-6 ml-6"
+                                                                >
+                                                                    <div className="absolute -left-3 w-6 h-6 bg-slate-500 rounded-full border-4 border-white flex items-center justify-center">
+                                                                        <span className="text-xs text-white">
+                                                                            {index +
+                                                                                1}
+                                                                        </span>
+                                                                    </div>
+                                                                    <div className="text-sm">
+                                                                        <span className="font-bold text-slate-600">
+                                                                            {
+                                                                                statusTranslations[
+                                                                                    activityLog
+                                                                                        .status
+                                                                                ]
+                                                                            }
+                                                                        </span>{" "}
+                                                                        <span className="text-slate-500">
+                                                                            por:
+                                                                        </span>{" "}
+                                                                        <span className="text-slate-700">
+                                                                            {
+                                                                                activityLog
+                                                                                    .user
+                                                                                    .userName
+                                                                            }
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                            )
+                                                        )}
+                                                    </ul>
+                                                </div>
+                                            </>
+                                        ) : null}
 
                                         <div className="my-5 space-y-3">
                                             <label className="font-bold">
@@ -194,6 +206,8 @@ export default function TaskModalDetails() {
                                                 ))}
                                             </select>
                                         </div>
+
+                                        <NotesPanel />
                                     </DialogPanel>
                                 </TransitionChild>
                             </div>
