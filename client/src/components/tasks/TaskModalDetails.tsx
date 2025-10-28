@@ -54,7 +54,6 @@ export default function TaskModalDetails() {
                 queryClient.invalidateQueries({
                     queryKey: ["task", taskID],
                 });
-                navigate(location.pathname, { replace: true });
                 toast.success(data.msg);
             }
         },

@@ -1,7 +1,7 @@
 import type { NoteFormData } from "@/types/index";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../ErrorMessage";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNote } from "@/api/NoteAPI";
 import { toast } from "react-toastify";
 import { useLocation, useParams } from "react-router-dom";
@@ -13,6 +13,8 @@ export default function AddNoteForm() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const taskID = queryParams.get("viewTask")!;
+
+    const queryClient = useQueryClient();
 
     const initialValues: NoteFormData = {
         content: "",
@@ -37,6 +39,9 @@ export default function AddNoteForm() {
                 toast.success(data.msg);
             }
 
+            queryClient.invalidateQueries({
+                queryKey: ["task", taskID],
+            });
             reset();
         },
     });
