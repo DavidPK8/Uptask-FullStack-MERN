@@ -1,6 +1,62 @@
+import type { NoteFormData } from "@/types/index";
+import { useForm } from "react-hook-form";
+import ErrorMessage from "../ErrorMessage";
+import { useMutation } from "@tanstack/react-query";
+import { createNote } from "@/api/NoteAPI";
+import { toast } from "react-toastify";
+import { useLocation, useParams } from "react-router-dom";
+
 export default function AddNoteForm() {
+    const params = useParams();
+    const projectID = params.projectID!;
+
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const taskID = queryParams.get("viewTask")!;
+
+    const initialValues: NoteFormData = {
+        content: "",
+    };
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm({
+        defaultValues: initialValues,
+    });
+
+    const { mutate } = useMutation({
+        mutationFn: createNote,
+        onError: (error) => {
+            toast.error(error.message);
+        },
+        onSuccess: (data) => {
+            if (data?.msg) {
+                toast.success(data.msg);
+            }
+
+            reset();
+        },
+    });
+
+    const handleAddNote = (formData: NoteFormData) => {
+        const data = {
+            formData,
+            projectID,
+            taskID,
+        };
+
+        mutate(data);
+    };
+
     return (
-        <form onSubmit={() => {}} className="space-y-3" noValidate>
+        <form
+            onSubmit={handleSubmit(handleAddNote)}
+            className="space-y-3"
+            noValidate
+        >
             <div className="flex flex-col gap-2">
                 <label className="font-bold" htmlFor="content">
                     Crear Nota
@@ -11,7 +67,13 @@ export default function AddNoteForm() {
                     type="text"
                     placeholder="Contenido de la nota"
                     className="w-full p-3 border border-gray-300"
+                    {...register("content", {
+                        required: "El Contenido de la nota es obligatorio",
+                    })}
                 />
+                {errors.content && (
+                    <ErrorMessage>{errors.content.message}</ErrorMessage>
+                )}
             </div>
 
             <input
