@@ -135,11 +135,11 @@ export default function TaskModalDetails() {
                                         {data.completedBy.length ? (
                                             <>
                                                 <div className="space-y-4">
-                                                    <p className="text-lg text-slate-500 font-semibold mb-4">
+                                                    <p className="font-bold text-2xl text-slate-600 my-5">
                                                         Historial de cambios
                                                     </p>
 
-                                                    <ul className="relative border-l-2 border-slate-300">
+                                                    <ul className="relative ml-2 border-l-2 border-slate-300">
                                                         {data.completedBy.map(
                                                             (
                                                                 activityLog,
@@ -149,7 +149,7 @@ export default function TaskModalDetails() {
                                                                     key={
                                                                         activityLog._id
                                                                     }
-                                                                    className="mb-6 ml-6"
+                                                                    className="mb-6 ml-6 flex items-center"
                                                                 >
                                                                     <div className="absolute -left-3 w-6 h-6 bg-slate-500 rounded-full border-4 border-white flex items-center justify-center">
                                                                         <span className="text-xs text-white">
@@ -207,7 +207,7 @@ export default function TaskModalDetails() {
                                             </select>
                                         </div>
 
-                                        <NotesPanel />
+                                        <NotesPanel notes={data.notes} />
                                     </DialogPanel>
                                 </TransitionChild>
                             </div>
