@@ -159,7 +159,7 @@ router.delete(
 router.post(
     "/:projectID/tasks/:taskID/notes",
     param("projectID").isMongoId().withMessage("Invalid Project ID"),
-    param("taskID").isMongoId().withMessage("Invalid Project ID"),
+    param("taskID").isMongoId().withMessage("Invalid Task ID"),
     body("content").notEmpty().withMessage("Content doesn't have empty"),
     handleInputErrors,
     NoteController.createNote
@@ -168,9 +168,18 @@ router.post(
 router.get(
     "/:projectID/tasks/:taskID/notes",
     param("projectID").isMongoId().withMessage("Invalid Project ID"),
-    param("taskID").isMongoId().withMessage("Invalid Project ID"),
+    param("taskID").isMongoId().withMessage("Invalid Task ID"),
     handleInputErrors,
     NoteController.getTaskNotes
+);
+
+router.delete(
+    "/:projectID/tasks/:taskID/notes/:noteID",
+    param("projectID").isMongoId().withMessage("Invalid Project ID"),
+    param("taskID").isMongoId().withMessage("Invalid Task ID"),
+    param("noteID").isMongoId().withMessage("Invalid Note ID"),
+    handleInputErrors,
+    NoteController.deleteNote
 );
 
 export default router;
