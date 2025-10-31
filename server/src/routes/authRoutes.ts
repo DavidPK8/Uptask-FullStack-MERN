@@ -90,4 +90,24 @@ router.put(
     AuthController.updateProfile
 );
 
+router.post(
+    "/update-password",
+    authenticate,
+    body("currentPassword")
+        .notEmpty()
+        .withMessage("Current Password is Required"),
+    body("password")
+        .isLength({ min: 8 })
+        .withMessage("Password must be at least 8 characters"),
+    body("passwordConfirmation").custom((value, { req }) => {
+        if (value !== req.body.password) {
+            throw new Error("Passwords do not match");
+        }
+
+        return true;
+    }),
+    handleInputErrors,
+    AuthController.updateUserPassword
+);
+
 export default router;

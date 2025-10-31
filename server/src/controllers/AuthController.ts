@@ -257,4 +257,29 @@ export class AuthController {
             res.status(500).json({ error: "There was an error" });
         }
     };
+
+    static updateUserPassword = async (req: Request, res: Response) => {
+        try {
+            const { currentPassword, password } = req.body;
+
+            const user = await User.findById(req.user.id);
+
+            const validatePassword = await checkPassword(
+                currentPassword,
+                user.password
+            );
+
+            if (!validatePassword) {
+                const error = new Error("Old Password is incorrect");
+                return res.status(401).json({ error: error.message });
+            }
+
+            req.user.password = await hashPassword(password);
+            await req.user.save();
+
+            res.json({ msg: "Password updated successfully" });
+        } catch (error) {
+            res.status(500).json({ error: "There was an error" });
+        }
+    };
 }
