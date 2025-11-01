@@ -84,7 +84,7 @@ export default function NewPasswordForm({ token }: NewPasswordFormProps) {
                     </label>
 
                     <input
-                        id="password_confirmation"
+                        id="passwordConfirmation"
                         type="password"
                         placeholder="Repite Password de Registro"
                         className="w-full p-3  border-gray-300 border"
