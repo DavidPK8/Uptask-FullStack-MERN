@@ -146,6 +146,10 @@ export type AuthResponse = {
     token?: string;
 };
 
+export type ProfileResponse = {
+    msg?: string;
+};
+
 export type NoteResponse = {
     msg?: string;
     notes?: Note[];
