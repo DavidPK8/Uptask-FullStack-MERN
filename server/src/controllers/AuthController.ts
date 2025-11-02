@@ -270,7 +270,7 @@ export class AuthController {
             );
 
             if (!validatePassword) {
-                const error = new Error("Old Password is incorrect");
+                const error = new Error("The old Password is incorrect");
                 return res.status(401).json({ error: error.message });
             }
 
@@ -278,6 +278,28 @@ export class AuthController {
             await req.user.save();
 
             res.json({ msg: "Password updated successfully" });
+        } catch (error) {
+            res.status(500).json({ error: "There was an error" });
+        }
+    };
+
+    static checkPassword = async (req: Request, res: Response) => {
+        try {
+            const { password } = req.body;
+
+            const user = await User.findById(req.user.id);
+
+            const validatePassword = await checkPassword(
+                password,
+                user.password
+            );
+
+            if (!validatePassword) {
+                const error = new Error("The Password is incorrect");
+                return res.status(401).json({ error: error.message });
+            }
+
+            res.json({ msg: "Password is correct" });
         } catch (error) {
             res.status(500).json({ error: "There was an error" });
         }
