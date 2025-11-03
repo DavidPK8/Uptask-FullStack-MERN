@@ -26,6 +26,7 @@ export type UpdatePasswordForm = Pick<
     "currentPassword" | "password" | "passwordConfirmation"
 >;
 export type ConfirmToken = Pick<Auth, "token">;
+export type CheckPasswordForm = Pick<Auth, "password">;
 
 // Users
 

@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteProject, getProjects } from "@/api/ProjectAPI";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getProjects } from "@/api/ProjectAPI";
 import { Fragment } from "react";
 import {
     Menu,
@@ -10,9 +10,9 @@ import {
     Transition,
 } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import { toast } from "react-toastify";
 import { useAuth } from "@/hooks/useAuth";
 import { isManager } from "@/utils/policies";
+import DeleteProjectModal from "@/components/projects/DeleteProjectModal";
 
 export default function DashboardView() {
     const { data: user, isLoading: authLoading } = useAuth();
@@ -22,20 +22,8 @@ export default function DashboardView() {
         queryFn: getProjects,
     });
 
-    const queryClient = useQueryClient();
-
-    const { mutate } = useMutation({
-        mutationFn: deleteProject,
-        onError: (error) => {
-            toast.error(error.message);
-        },
-        onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: ["projects"] });
-            if (data?.msg) {
-                toast.success(data.msg);
-            }
-        },
-    });
+    const location = useLocation();
+    const navigate = useNavigate();
 
     if (isLoading && authLoading) {
         return <p className="text-5xl font-bold text-center">Cargando...</p>;
@@ -146,8 +134,9 @@ export default function DashboardView() {
                                                                 type="button"
                                                                 className="block px-3 py-1 text-sm leading-6 text-red-500 cursor-pointer hover:underline transition"
                                                                 onClick={() => {
-                                                                    mutate(
-                                                                        project._id
+                                                                    navigate(
+                                                                        location.pathname +
+                                                                            `?deleteProject=${project._id}`
                                                                     );
                                                                 }}
                                                             >
@@ -176,6 +165,8 @@ export default function DashboardView() {
                         para visualizarlo aqui
                     </p>
                 )}
+
+                <DeleteProjectModal />
             </>
         );
     }
