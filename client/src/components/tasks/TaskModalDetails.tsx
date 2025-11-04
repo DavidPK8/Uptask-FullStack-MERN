@@ -138,7 +138,7 @@ export default function TaskModalDetails() {
                                                         Historial de cambios
                                                     </p>
 
-                                                    <ul className="relative ml-2 border-l-2 border-slate-300">
+                                                    <ul className="relative ml-2 border-l-2 border-fuchsia-300">
                                                         {data.completedBy.map(
                                                             (
                                                                 activityLog,
@@ -150,7 +150,7 @@ export default function TaskModalDetails() {
                                                                     }
                                                                     className="mb-6 ml-6 flex items-center"
                                                                 >
-                                                                    <div className="absolute -left-3 w-6 h-6 bg-slate-500 rounded-full border-4 border-white flex items-center justify-center">
+                                                                    <div className="absolute -left-3 w-6 h-6 bg-fuchsia-600 rounded-full border-4 border-white flex items-center justify-center">
                                                                         <span className="text-xs text-white">
                                                                             {index +
                                                                                 1}
