@@ -1,5 +1,5 @@
 import { deleteTask } from "@/api/TaskAPI";
-import type { Task } from "@/types/index";
+import type { TaskProject } from "@/types/index";
 import {
     Menu,
     MenuButton,
@@ -15,7 +15,7 @@ import { Fragment } from "react/jsx-runtime";
 import { useDraggable } from "@dnd-kit/core";
 
 type TaskCardProp = {
-    task: Task;
+    task: TaskProject;
     canEdit: boolean;
 };
 

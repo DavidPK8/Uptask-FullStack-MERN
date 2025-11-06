@@ -6,7 +6,7 @@ import {
     useSensors,
     type DragEndEvent,
 } from "@dnd-kit/core";
-import type { Project, Task, TaskStatus } from "@/types/index";
+import type { Project, TaskProject, TaskStatus } from "@/types/index";
 import TaskCard from "./TaskCard";
 import { statusTranslations } from "@/locales/es";
 import DropTask from "./DropTask";
@@ -16,12 +16,12 @@ import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
 type TaskListProps = {
-    tasks: Task[];
+    tasks: TaskProject[];
     canEdit: boolean;
 };
 
 type GroupedTasks = {
-    [key: string]: Task[];
+    [key: string]: TaskProject[];
 };
 
 const initialStatusGroups: GroupedTasks = {
@@ -96,8 +96,8 @@ export default function TaskList({ tasks, canEdit }: TaskListProps) {
 
             queryClient.setQueryData(
                 ["project", projectID],
-                (oldData: Project) => {
-                    const updatedTasks = oldData.tasks.map((task: Task) => {
+                (prevData: Project) => {
+                    const updatedTasks = prevData.tasks.map((task) => {
                         if (task._id === taskID) {
                             return {
                                 ...task,
@@ -109,7 +109,7 @@ export default function TaskList({ tasks, canEdit }: TaskListProps) {
                     });
 
                     return {
-                        ...oldData,
+                        ...prevData,
                         tasks: updatedTasks,
                     };
                 }
