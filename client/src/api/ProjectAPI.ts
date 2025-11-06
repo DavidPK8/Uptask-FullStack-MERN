@@ -1,5 +1,6 @@
 import {
     dashboardProjectSchema,
+    editProjectSchema,
     type Project,
     type ProjectFormData,
     type ProjectResponse,
@@ -36,8 +37,11 @@ export async function getProjects() {
 export async function getProjectByID(projectID: Project["_id"]) {
     try {
         const { data } = await api<ProjectResponse>(`/projects/${projectID}`);
+        const response = editProjectSchema.safeParse(data.project);
 
-        return data.project;
+        if (response.success) {
+            return response.data;
+        }
     } catch (error) {
         if (isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);
