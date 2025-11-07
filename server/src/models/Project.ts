@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, PopulatedDoc, Types } from "mongoose";
-import { ITask } from "./Task";
+import Task, { ITask } from "./Task";
 import { IUser } from "./User";
+import Note from "./Note";
 
 // Definition of the Project Interface
 export interface IProject extends Document {
@@ -50,6 +51,21 @@ const ProjectSchema: Schema = new Schema(
     },
     { timestamps: true }
 );
+
+// Midleware
+ProjectSchema.pre("deleteOne", { document: true }, async function () {
+    const projectID = this._id;
+
+    if (!projectID) return;
+
+    const tasks = await Task.find({ project: projectID });
+
+    for (const task of tasks) {
+        await Note.deleteMany({ task: task._id });
+    }
+
+    await Task.deleteMany({ project: projectID });
+});
 
 const Project = mongoose.model<IProject>("Project", ProjectSchema);
 export default Project;
