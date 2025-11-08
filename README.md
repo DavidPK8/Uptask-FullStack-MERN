@@ -1,7 +1,7 @@
 # 📋 Uptask - Aplicación Web para la Gestión de Proyectos y Tareas Colaborativas 📋 
 
 <p align="justify">
-  <b>Uptask</b> es una aplicación Full Stack diseñada para equipos que buscan gestionar proyectos y tareas de forma organizada y colaborativa. Permite crear proyectos, asignar tareas, controlar el progreso y administrar los usuarios que participan en cada uno, con una interfaz moderna, segura y totalmente responsiva.
+  <b>Uptask</b> es una aplicación Full Stack diseñada para equipos que buscan gestionar proyectos y tareas de forma organizada y colaborativa. Permite crear proyectos, asignar tareas, controlar el progreso y administrar los usuarios que participan en cada uno, con una interfaz moderna y segura.
 </p>
 
 🔗 **[Ver página en vivo](https://uptask-full-stack-mern.vercel.app)**
