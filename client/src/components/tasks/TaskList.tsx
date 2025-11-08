@@ -6,7 +6,7 @@ import {
     useSensors,
     type DragEndEvent,
 } from "@dnd-kit/core";
-import type { Project, TaskProject, TaskStatus } from "@/types/index";
+import type { Project, Task, TaskStatus } from "@/types/index";
 import TaskCard from "./TaskCard";
 import { statusTranslations } from "@/locales/es";
 import DropTask from "./DropTask";
@@ -16,12 +16,12 @@ import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
 type TaskListProps = {
-    tasks: TaskProject[];
+    tasks: Task[];
     canEdit: boolean;
 };
 
 type GroupedTasks = {
-    [key: string]: TaskProject[];
+    [key: string]: Task[];
 };
 
 const initialStatusGroups: GroupedTasks = {
