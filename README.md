@@ -136,3 +136,11 @@ Uptask/
 ### Dashboard de Proyectos
 <img width="1872" height="900" alt="image" src="https://github.com/user-attachments/assets/676f71bb-4467-4555-adfd-f3a61e6022bb" />
 
+### Vista de Tareas
+<img width="1872" height="900" alt="image" src="https://github.com/user-attachments/assets/e65e50dc-da3f-49ce-8d6b-6d369db7fc63" />
+
+### Vista de Miembros
+<img width="1872" height="900" alt="image" src="https://github.com/user-attachments/assets/7b026b3c-4acb-48e4-8dde-a5648f661a70" />
+
+### Vista de Perfil
+<img width="1872" height="900" alt="image" src="https://github.com/user-attachments/assets/d10b39db-d392-4cd3-8668-d997f00b59e4" />
